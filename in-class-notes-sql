@@ -1,0 +1,150 @@
+SELECT * FROM public.film
+ORDER BY film_id ASC LIMIT 100
+
+SELECT 
+	rating,
+	AVG(rental_rate) as "Average_rental_rate", 
+	Min(rental_rate) as "Min_rental_rate",
+	Max(rental_rate) as "Max_rental_rate",
+	count(1) as "count"
+FROM film
+GROUP BY rating;
+
+SELECT release_year, max(length)
+From film
+Group by release_year
+;
+
+
+--avg cost to rent a film in Sakila stores
+SELECT avg(rental_rate) as "cost"
+FROM film;
+
+--avg rental cost of films by rating
+SELECT
+	rating,
+	avg(rental_rate) as "cost"
+FROM film
+GROUP BY rating;
+
+--cost to replace all films in database
+SELECT
+	sum(replacement_cost) as "Cost_to_replace_films"
+FROM film;
+
+--cost to replace all firms by rating 
+SELECT
+	rating,
+	sum(replacement_cost) as "Cost_to_replace_films"
+FROM film
+GROUP BY rating;
+
+-- how long is the longest movie in the database? shortest?
+SELECT 
+	min(length) as "shortest_movie",
+	max(length) as "longest_movie"
+FROM film;
+	
+	
+	
+SELECT rating, Avg(length) as avg_length
+from film
+group by rating
+order by avg_length DESC
+limit 1;
+
+
+SELECT film_id, round(avg(length), 2) as "avg_length" FROM film
+group by film_id
+order by "avg_length";
+
+-- CREATE SUBQUERY
+SELECT MAX("avg_length") FROM
+(SELECT film_id, round(avg(length), 2) as "avg_length" FROM film
+group by film_id
+order by "avg_length") as c;
+
+-- IN CLASS EXERCISE
+
+--Count of actor first names in descending order
+SELECT first_name, count(first_name) as first_name_count
+from actor 
+group by first_name
+ORDER BY first_name_count DESC;
+
+
+SELECT rating, round(avg(rental_duration,2) as avg_rental_duration
+FROM film
+GROUP BY rating
+ORDER BY avg_rental_duration;
+
+
+-- top 10 avg replacement costs for length of movie
+SELECT length, avg(replacement_cost) as avg_replacement
+FROM film
+GROUP BY length
+ORDER BY avg_replacement DESC
+Limit 10;
+
+					 
+					 
+-- next activity
+SELECT DISTINCT customer_id, inventory_id, rental_date
+FROM rental
+ORDER BY rental_date;
+					 
+SELECT DISTINCT on (customer_id) customer_id, inventory_id, rental_date
+FROM rental
+WHERE customer_id = 1
+ORDER BY customer_id, rental_date DESC;
+	
+					 
+					 
+--1. Retreive the latest rental for each customer's first and last name and emial address. 					 
+SELECT DISTINCT on (c.customer_id) c.first_name, c.last_name, c.email, r.rental_date
+FROM rental as r
+JOIN customer  as C
+ON c.customer_id = r.customer_id
+ORDER BY c.customer_id, r.rental_date DESC;
+										 
+--Retrieve latest rental for each title 
+SELECT DISTINCT ON (f.title) f.title, r.rental_date 
+FROM rental as r 
+JOIN inventory as i 
+on r.inventory_id = i.inventory_id	
+JOIN film as f
+on f.film_id = i.film_id
+ORDER BY f.title, r.rental_date DESC;	
+					 
+					 
+					 
+					 
+					 
+--bonus
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
+					 
